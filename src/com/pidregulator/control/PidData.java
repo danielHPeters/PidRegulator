@@ -57,6 +57,11 @@ public class PidData {
         this.soll = loader.load();
         this.ist = new ArrayList<>();
         this.diff = new ArrayList<>();
+        /** 
+         * Temporarily fill with values to avoid nullpointer errors.
+         * This fix should be removed, when the data generation algorithm has
+         * been properly fixed and implemented
+         */
         this.soll.forEach(s -> {
             this.ist.add(0.0);
             this.diff.add(0.0);
