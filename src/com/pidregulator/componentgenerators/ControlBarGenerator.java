@@ -2,6 +2,7 @@ package com.pidregulator.componentgenerators;
 
 import com.pidregulator.view.PaintSurface;
 import com.pidregulator.control.Runner;
+import com.pidregulator.control.State;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -17,22 +18,15 @@ public class ControlBarGenerator {
     /**
      *
      */
-    private final Runner run;
-
-    /**
-     *
-     */
-    private final PaintSurface surface;
+    private final State state;
 
     /**
      * Default contructor
      *
-     * @param run reference to the runnable object
-     * @param surface reference to the painting object
+     * @param state
      */
-    public ControlBarGenerator(Runner run, PaintSurface surface) {
-        this.run = run;
-        this.surface = surface;
+    public ControlBarGenerator(State state) {
+        this.state = state;
     }
 
     /**
@@ -55,13 +49,13 @@ public class ControlBarGenerator {
 
         speedDisplay.setColumns(10);
         speedDisplay.setEditable(false);
-        speedDisplay.setText(Integer.toString((105 - this.run.getDelay())));
+        speedDisplay.setText(Integer.toString((105 - this.state.getDelay())));
 
         // Get Button Generators
         AnomalyButtonGenerator btnGenerator = new AnomalyButtonGenerator(
-                this.surface, messageArea);
+                this.state, messageArea);
         ControlButtonGenerator controlsBtnGen = new ControlButtonGenerator(
-                this.run, speedDisplay);
+                this.state, speedDisplay);
 
         controls.setBounds(0, 0, 800, 40);
         controls.setBackground(Color.yellow);

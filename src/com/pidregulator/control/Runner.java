@@ -15,44 +15,20 @@ public class Runner implements Runnable {
     private final PaintSurface surface;
 
     /**
-     * Reference to the object containing lists of data to be represented as
-     * lines.
+     * Drawing state
      */
-    private final PidData data;
-
-    /**
-     * Flag for checking if the program has drawn all lines
-     */
-    private boolean running;
-
-    /**
-     * Delay of the painting thread Prevents the lines to be instantly drawn on
-     * program start.
-     *
-     */
-    private int delay;
+    private final State state;
 
     /**
      * Default constructor Initializes the references to the PaintSurface and
      * PidData objects. Also sets a default delay and starts the painting loop.
      *
      * @param surface
-     * @param data
+     * @param state
      */
-    public Runner(PaintSurface surface, PidData data) {
+    public Runner(PaintSurface surface, State state) {
         this.surface = surface;
-        this.data = data;
-        this.running = true;
-        this.delay = 30;
-    }
-
-    /**
-     * Getter for the delay of the thread
-     *
-     * @return the current delay
-     */
-    public int getDelay() {
-        return this.delay;
+        this.state = state;
     }
 
     /**
@@ -65,19 +41,19 @@ public class Runner implements Runnable {
     @Override
     public void run() {
 
-        while (this.running) {
+        while (this.state.isRunning()) {
 
-            if (this.surface.getState() > this.data.getSoll().size() - 1) {
+            if (this.state.getState() > this.state.getData().getSoll().size() - 1) {
 
-                this.running = false;
+                this.state.setRunning(false);
 
             } else {
 
-                this.surface.incrementState();
+                this.state.incrementState();
 
                 try {
 
-                    Thread.sleep(this.delay);
+                    Thread.sleep(this.state.getDelay());
 
                 } catch (InterruptedException e) {
 
@@ -91,30 +67,6 @@ public class Runner implements Runnable {
 
         }
 
-    }
-
-    /**
-     * Change the delay of the loop by delayDiff Sets limits to the delay
-     * (longest: 100, shortest: 5)
-     *
-     * @param delayDiff ammount by which the delay will be modified
-     */
-    public void changeSpeed(int delayDiff) {
-
-        if (this.delay + delayDiff > 0 && this.delay + delayDiff <= 100) {
-
-            this.delay += delayDiff;
-
-        }
-
-    }
-
-    /**
-     * Resets the drawing state and starts drawing from starting point
-     */
-    public void restart() {
-        this.surface.resetState();
-        this.running = true;
     }
 
 }

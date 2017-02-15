@@ -1,5 +1,6 @@
 package com.pidregulator.componentgenerators;
 
+import com.pidregulator.control.State;
 import com.pidregulator.view.PaintSurface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +16,9 @@ import javax.swing.JTextField;
 public class AnomalyButtonGenerator {
 
     /**
-     * Reference to the JPanel (where the drawing is done)
+     * Reference to the drawing state
      */
-    private final PaintSurface surface;
+    private final State state;
 
     /**
      * Reference to the Textfield that displays a message, when a button was
@@ -29,11 +30,11 @@ public class AnomalyButtonGenerator {
      * Default constructor. Initializes the references to the PaintSurface and
      * JTexField objects
      *
-     * @param surface Reference to the PaintSurface object
+     * @param state
      * @param messageArea Reference to the JTextField object
      */
-    public AnomalyButtonGenerator(PaintSurface surface, JTextField messageArea) {
-        this.surface = surface;
+    public AnomalyButtonGenerator(State state, JTextField messageArea) {
+        this.state = state;
         this.messageArea = messageArea;
     }
 
@@ -49,7 +50,7 @@ public class AnomalyButtonGenerator {
 
         ActionListener listener = (ActionEvent e) -> {
             this.messageArea.setText(buttonText);
-            this.surface.setAnomaly(magnitude);
+            this.state.setAnomaly(magnitude);
         };
 
         return listener;

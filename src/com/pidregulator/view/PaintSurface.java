@@ -1,14 +1,11 @@
 package com.pidregulator.view;
 
 import com.pidregulator.control.PidData;
+import com.pidregulator.control.State;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -36,79 +33,25 @@ public class PaintSurface extends JPanel {
     private final int SCALE_Y = 50;
 
     /**
-     * Aeroplane image
-     */
-    private BufferedImage plane;
-
-    /**
      * Reference to the object containing the data lists
      */
     private final PidData data;
-
+    
     /**
-     * anomaly (deviation from the intended course of the plane) can be changed
-     * by the anomaly buttons. TODO: move to somewhere where it makes sense,
-     * because this class should only handle painting of objects
+     * The drawing state
      */
-    private double anomaly;
-
-    /**
-     * A state counter limiting the amount of lines to be drawn from the data
-     * (makes the line to be drawn in realtime instead of instantly on program
-     * start).
-     */
-    private int state;
+    private final State state;
 
     /**
      * Default constructor. Initializes the reference to the data object, loads
      * the aeroplane image and sets the default anomaly.
      *
      * @param data
+     * @param state
      */
-    public PaintSurface(PidData data) {
-        try {
-
-            this.plane = ImageIO.read(new File("flugzeug.png"));
-
-        } catch (IOException e) {
-            System.out.println("Failed to load image.");
-        }
+    public PaintSurface(PidData data, State state) {
         this.data = data;
-        this.anomaly = 0;
-        this.state = 0;
-    }
-
-    /**
-     * Gets the current state of the drawing process.
-     *
-     * @return
-     */
-    public int getState() {
-        return this.state;
-    }
-
-    /**
-     * Increases the drawing state by one.
-     */
-    public void incrementState() {
-        this.state++;
-    }
-
-    /**
-     * Resets the drawing state to 0. (Restarts the whole line by line drawing
-     * process)
-     */
-    public void resetState() {
-        this.state = 0;
-    }
-
-    /**
-     * Setter for the anomaly
-     *
-     * @param anomaly the new anomaly
-     */
-    public void setAnomaly(double anomaly) {
-        this.anomaly = anomaly;
+        this.state = state;
     }
 
     /**
@@ -123,11 +66,11 @@ public class PaintSurface extends JPanel {
         xAlt = 0;
         currentIst = 0;
 
-        for (i = 1; i < this.state; i++) {
+        for (i = 1; i < this.state.getState(); i++) {
 
-            // Störung, z.B. Plasmasturm
+            // Anomaly eg. plasmastorm
             if (i == 50) {
-                this.data.getIst().set(i, this.anomaly);
+                this.data.getIst().set(i, this.state.getAnomaly());
             }
 
             prevIst = (int) (this.SCALE_Y * this.data.getIst().get(i - 1));
@@ -142,7 +85,7 @@ public class PaintSurface extends JPanel {
 
         }
 
-        g.drawImage(this.plane, x, this.WINDOW_HEIGHT - currentIst, this);
+        g.drawImage(this.data.getPlane(), x, this.WINDOW_HEIGHT - currentIst, this);
     }
 
     /**

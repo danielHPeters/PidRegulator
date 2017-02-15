@@ -1,8 +1,12 @@
 package com.pidregulator.control;
 
 import com.pidregulator.model.DataLoader;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 /**
  * Holds lists of data generated on instantiation
@@ -10,6 +14,11 @@ import java.util.List;
  * @author t.gronowski, d.peters
  */
 public class PidData {
+    
+    /**
+     * Aeroplane image
+     */
+    private BufferedImage plane;
 
     /**
      * Reference to the object loading the data.
@@ -53,6 +62,13 @@ public class PidData {
      * @param loader Reference to the data loading object
      */
     public PidData(DataLoader loader) {
+        try {
+
+            this.plane = ImageIO.read(new File("flugzeug.png"));
+
+        } catch (IOException e) {
+            System.out.println("Failed to load image.");
+        }
         this.loader = loader;
         this.soll = loader.load();
         this.ist = new ArrayList<>();
@@ -95,6 +111,15 @@ public class PidData {
     public List<Double> getDiff() {
         return diff;
     }
+
+    /**
+     * 
+     * @return 
+     */
+    public BufferedImage getPlane() {
+        return plane;
+    }
+    
 
     /**
      * Calculates new ist data

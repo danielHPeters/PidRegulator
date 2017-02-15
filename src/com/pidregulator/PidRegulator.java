@@ -6,6 +6,7 @@ import com.pidregulator.control.Runner;
 import com.pidregulator.control.PidData;
 import com.pidregulator.model.DataLoader;
 import com.pidregulator.componentgenerators.ControlBarGenerator;
+import com.pidregulator.control.State;
 import java.awt.Color;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,11 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class PidRegulator {
 
+    /**
+     * 
+     */
+    private final State state;
+    
     /**
      * Threadpool manager
      */
@@ -78,16 +84,20 @@ public class PidRegulator {
 
         this.data = new PidData(this.loader);
         
+        // Initialize the state of the program
+        
+        this.state = new State(this.data);
+        
         // Painter object
 
-        this.surface = new PaintSurface(this.data);
+        this.surface = new PaintSurface(this.data, this.state);
         this.surface.setBackground(Color.blue);
         this.surface.setForeground(Color.white);
         this.surface.setBounds(0, 40, 800, 800);
 
         // Runnable loop
         
-        this.run = new Runner(this.surface, this.data);
+        this.run = new Runner(this.surface, this.state);
         
         // Threadpool manager
         
@@ -96,7 +106,7 @@ public class PidRegulator {
         
         // Controlbar
 
-        this.controlBarGen = new ControlBarGenerator(this.run, this.surface);
+        this.controlBarGen = new ControlBarGenerator(this.state);
         this.controlBar = this.controlBarGen.getNewControlBar();
         
         // Add components to window and display

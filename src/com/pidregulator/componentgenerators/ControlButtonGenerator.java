@@ -1,6 +1,7 @@
 package com.pidregulator.componentgenerators;
 
 import com.pidregulator.control.Runner;
+import com.pidregulator.control.State;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -17,7 +18,7 @@ public class ControlButtonGenerator {
     /**
      * Reference to the runnable object
      */
-    private final Runner run;
+    private final State state;
 
     /**
      * Testfield displaying the current speed
@@ -31,8 +32,8 @@ public class ControlButtonGenerator {
      * @param run
      * @param speedDisplay
      */
-    public ControlButtonGenerator(Runner run, JTextField speedDisplay) {
-        this.run = run;
+    public ControlButtonGenerator(State run, JTextField speedDisplay) {
+        this.state = run;
         this.speedDisplay = speedDisplay;
     }
 
@@ -45,7 +46,7 @@ public class ControlButtonGenerator {
     private ActionListener generateRestartAction() {
 
         ActionListener listener = (ActionEvent e) -> {
-            this.run.restart();
+            this.state.reset();
         };
 
         return listener;
@@ -61,8 +62,8 @@ public class ControlButtonGenerator {
     private ActionListener generateDelayAction(int delayDiff) {
 
         ActionListener listener = (ActionEvent e) -> {
-            this.run.changeSpeed(delayDiff);
-            this.speedDisplay.setText(Integer.toString((105 - this.run.getDelay())));
+            this.state.changeSpeed(delayDiff);
+            this.speedDisplay.setText(Integer.toString((105 - this.state.getDelay())));
         };
 
         return listener;
