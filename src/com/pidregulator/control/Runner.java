@@ -1,6 +1,6 @@
 package com.pidregulator.control;
 
-import com.pidregulator.view.PaintSurface;
+import com.pidregulator.interfaces.ICanvas;
 
 /**
  * This runnable starts and runs the painting process.
@@ -8,65 +8,44 @@ import com.pidregulator.view.PaintSurface;
  * @author d.peters
  */
 public class Runner implements Runnable {
+  private final ICanvas canvas;
+  private final State state;
 
-    /**
-     * Reference to JPanel object painting the lines
-     */
-    private final PaintSurface surface;
+  /**
+   * Default constructor Initializes the references to the Canvas and
+   * PidData objects. Also sets a default delay and starts the painting loop.
+   *
+   * @param canvas reference to canvas
+   * @param state  reference to drawing state
+   */
+  public Runner(ICanvas canvas, State state) {
+    this.canvas = canvas;
+    this.state = state;
+  }
 
-    /**
-     * Drawing state
-     */
-    private final State state;
+  /**
+   * Loop that increases the drawing state by 1 each time and invokes the
+   * repaint function of the JPanel. The checks prevent the loop from looping
+   * out of bounds from the data lists and stops running the loop after all
+   * lines have been drawn.
+   */
+  @Override
+  public void run() {
 
-    /**
-     * Default constructor Initializes the references to the PaintSurface and
-     * PidData objects. Also sets a default delay and starts the painting loop.
-     *
-     * @param surface
-     * @param state
-     */
-    public Runner(PaintSurface surface, State state) {
-        this.surface = surface;
-        this.state = state;
-    }
+    while (state.isRunning()) {
+      if (state.getState() > state.getData().getTarget().size() - 1) {
+        state.setRunning(false);
+      } else {
+        state.incrementState();
 
-    /**
-     * Loop that increses the drawing state by 1 each time and invokes the
-     * repaint funtion of the JPanel The checks prevent the loop from looping
-     * out of bounds from the data lists and stops running the loop after all
-     * lines have been drawn
-     *
-     */
-    @Override
-    public void run() {
-
-        while (this.state.isRunning()) {
-
-            if (this.state.getState() > this.state.getData().getSoll().size() - 1) {
-
-                this.state.setRunning(false);
-
-            } else {
-
-                this.state.incrementState();
-
-                try {
-
-                    Thread.sleep(this.state.getDelay());
-
-                } catch (InterruptedException e) {
-
-                    System.out.println(e.getCause());
-
-                }
-
-                this.surface.repaint();
-
-            }
-
+        try {
+          Thread.sleep(state.getDelay());
+        } catch (InterruptedException e) {
+          System.out.println("Internal error.");
         }
 
+        canvas.draw();
+      }
     }
-
+  }
 }

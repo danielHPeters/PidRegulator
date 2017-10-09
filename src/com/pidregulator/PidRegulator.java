@@ -1,12 +1,13 @@
 package com.pidregulator;
 
-import com.pidregulator.view.PaintSurface;
 import com.pidregulator.control.FileLoader;
-import com.pidregulator.control.Runner;
 import com.pidregulator.control.PidData;
-import com.pidregulator.model.DataLoader;
-import com.pidregulator.componentgenerators.ControlBarGenerator;
+import com.pidregulator.control.Runner;
 import com.pidregulator.control.State;
+import com.pidregulator.interfaces.DataLoader;
+import com.pidregulator.interfaces.ICanvas;
+import com.pidregulator.view.swing.Canvas;
+import com.pidregulator.view.swing.ControlBarGenerator;
 import java.awt.Color;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,133 +18,80 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * Main class.
  *
- * @author d.peters
+ * @author Daniel Peters
+ * @version 1.0
  */
 public class PidRegulator {
+  private final State state;
+  private final ScheduledThreadPoolExecutor executor;
+  private final DataLoader loader;
+  private final PidData data;
+  private final Runner run;
+  private final JFrame window;
+  private final ICanvas surface;
+  private final ControlBarGenerator controlBarGen;
+  private final JPanel controlBar;
 
-    /**
-     * 
-     */
-    private final State state;
-    
-    /**
-     * Threadpool manager
-     */
-    private final ScheduledThreadPoolExecutor executor;
+  /**
+   * Default constructor. Creates the GUI.
+   */
+  public PidRegulator() {
+    setLooks();
+    // Create window
+    window = new JFrame();
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    window.setSize(816, 880);
+    window.setLayout(null);
 
-    /**
-     * Object loading the data
-     */
-    private final DataLoader loader;
+    // Create File loader object
+    loader = new FileLoader();
 
-    /**
-     * Object holding all data lists
-     */
-    private final PidData data;
+    // Init Data
+    data = new PidData(loader);
 
-    /**
-     * Runnable which updates the drawing process
-     */
-    private final Runner run;
+    // Initialize the state of the program
+    state = new State(data);
 
-    /**
-     * The main window
-     */
-    private final JFrame window;
+    // Painter object
+    surface = new Canvas(data, state);
 
-    /**
-     * The painter object
-     */
-    private final PaintSurface surface;
+    // Runnable loop
+    run = new Runner(surface, state);
 
-    /**
-     * Generator for controlbars
-     */
-    private final ControlBarGenerator controlBarGen;
+    // Thread pool manager
+    executor = new ScheduledThreadPoolExecutor(3);
+    executor.scheduleAtFixedRate(run, 0L, 100L, TimeUnit.MILLISECONDS);
 
-    /**
-     * Panel with controls
-     */
-    private final JPanel controlBar;
+    // Control bar
+    controlBarGen = new ControlBarGenerator(state);
+    controlBar = controlBarGen.getNewControlBar();
 
-    public PidRegulator() {
-        
-        // Create window
+    // Add components to window and display
+    window.getContentPane().add(controlBar);
+    window.getContentPane().add((JPanel) surface);
+    window.setVisible(true);
+  }
 
-        this.window = new JFrame();
-        this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.window.setSize(816, 880);
-        this.window.setLayout(null);
-        
-        // Create File loader object
-
-        this.loader = new FileLoader();
-        
-        // Init Data
-
-        this.data = new PidData(this.loader);
-        
-        // Initialize the state of the program
-        
-        this.state = new State(this.data);
-        
-        // Painter object
-
-        this.surface = new PaintSurface(this.data, this.state);
-        this.surface.setBackground(Color.blue);
-        this.surface.setForeground(Color.white);
-        this.surface.setBounds(0, 40, 800, 800);
-
-        // Runnable loop
-        
-        this.run = new Runner(this.surface, this.state);
-        
-        // Threadpool manager
-        
-        this.executor = new ScheduledThreadPoolExecutor(3);
-        this.executor.scheduleAtFixedRate(this.run, 0L, 100L, TimeUnit.MILLISECONDS);
-        
-        // Controlbar
-
-        this.controlBarGen = new ControlBarGenerator(this.state);
-        this.controlBar = this.controlBarGen.getNewControlBar();
-        
-        // Add components to window and display
-
-        this.window.getContentPane().add(this.controlBar);
-        this.window.getContentPane().add(this.surface);
-        this.window.setVisible(true);
-
+  /**
+   * Sets look and feel of the program ui.
+   */
+  private void setLooks() {
+    try {
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+    } catch (ClassNotFoundException | InstantiationException
+        | IllegalAccessException | UnsupportedLookAndFeelException e) {
+      System.out.println("Failed to set look and feel.");
     }
+  }
 
-    /**
-     * Sets look and feel of the program ui.
-     */
-    public static void setLooks() {
-        
-        try {
-
-            UIManager.setLookAndFeel(
-                    "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-        }
-        
-    }
-
-    /**
-     * Main process.
-     * 
-     * @param args the command line arguments 
-     */
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(() -> {
-            setLooks();
-            PidRegulator program = new PidRegulator();
-        });
-
-    }
+  /**
+   * Main process.
+   *
+   * @param args the command line arguments
+   */
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(PidRegulator::new);
+  }
 }
