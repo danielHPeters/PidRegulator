@@ -8,6 +8,7 @@ import java.util.List;
  *
  * @author Daniel Peters
  * @version 1.0
+ * @param <T> Data type
  */
 public interface DataHandler<T> {
   List<T> get();

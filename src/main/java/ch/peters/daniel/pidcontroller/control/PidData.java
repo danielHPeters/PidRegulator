@@ -12,8 +12,8 @@ import javax.imageio.ImageIO;
 /**
  * Holds lists of data generated on instantiation.
  *
- * @author t.gronowski, Daniel Peters
- * @version 1.2
+ * @author Daniel Peters
+ * @version 1.0
  */
 public class PidData {
   private BufferedImage plane;

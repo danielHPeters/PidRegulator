@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /**
  * Paints all the data should have no logic and data manipulation inside if possible.
  *
- * @author t.gronowski, Daniel Peters
+ * @author Daniel Peters
  */
 public class Canvas extends JPanel implements ICanvas {
   private final int windowHeight = 500;

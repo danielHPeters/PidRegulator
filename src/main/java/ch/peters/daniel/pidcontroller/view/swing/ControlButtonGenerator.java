@@ -7,8 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 /**
- * Generator for buttons, that change the loop of a runnable in some way (e.g.
- * restarting the loop or changing the delay)
+ * Generator for buttons, that change the loop of a runnable in some way
+ * (e.g. restarting the loop or changing the delay)
  *
  * @author Daniel Peters
  * @version 1.0
