@@ -2,7 +2,7 @@ package ch.peters.daniel.pidcontroller.view.swing;
 
 import ch.peters.daniel.pidcontroller.control.PidData;
 import ch.peters.daniel.pidcontroller.control.State;
-import ch.peters.daniel.pidcontroller.interfaces.ICanvas;
+import ch.peters.daniel.pidcontroller.view.Canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,9 +13,10 @@ import javax.swing.JPanel;
 /**
  * Paints all the data should have no logic and data manipulation inside if possible.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @version 1.0
  */
-public class Canvas extends JPanel implements ICanvas {
+public class CanvasSwing extends JPanel implements Canvas {
   private final int windowHeight = 500;
   private final int scaleX = 5;
   private final int scaleY = 50;
@@ -29,7 +30,7 @@ public class Canvas extends JPanel implements ICanvas {
    * @param data  pid data
    * @param state draw state
    */
-  public Canvas(PidData data, State state) {
+  public CanvasSwing(PidData data, State state) {
     this.data = data;
     this.state = state;
     init();
@@ -111,7 +112,7 @@ public class Canvas extends JPanel implements ICanvas {
 
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setColor(Color.white);
-    g2.drawString("Canvas", 20, 20);
+    g2.drawString("CanvasSwing", 20, 20);
     g2.setColor(Color.yellow);
     drawTarget(g2);
     g2.setColor(Color.red);

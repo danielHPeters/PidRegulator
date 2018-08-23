@@ -1,25 +1,25 @@
 package ch.peters.daniel.pidcontroller.control;
 
-import ch.peters.daniel.pidcontroller.interfaces.ICanvas;
+import ch.peters.daniel.pidcontroller.view.Canvas;
 
 /**
  * This runnable starts and runs the painting process.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 public class Runner implements Runnable {
-  private final ICanvas canvas;
+  private final Canvas canvas;
   private final State state;
 
   /**
-   * Default constructor Initializes the references to the Canvas and
+   * Default constructor Initializes the references to the CanvasSwing and
    * PidData objects. Also sets a default delay and starts the painting loop.
    *
    * @param canvas reference to canvas
    * @param state  reference to drawing state
    */
-  public Runner(ICanvas canvas, State state) {
+  public Runner(Canvas canvas, State state) {
     this.canvas = canvas;
     this.state = state;
   }

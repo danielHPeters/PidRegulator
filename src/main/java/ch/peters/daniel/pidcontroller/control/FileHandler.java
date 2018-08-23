@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Loads data from a file.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 public class FileHandler implements DataHandler<Double> {
@@ -33,8 +33,8 @@ public class FileHandler implements DataHandler<Double> {
 
     try (var br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName)))) {
       br.lines()
-          .map(line -> Double.parseDouble(line.trim()))
-          .collect(Collectors.toCollection(() -> values));
+        .map(line -> Double.parseDouble(line.trim()))
+        .collect(Collectors.toCollection(() -> values));
     } catch (IOException e) {
       e.printStackTrace();
     }

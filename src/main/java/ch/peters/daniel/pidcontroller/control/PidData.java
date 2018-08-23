@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 /**
  * Holds lists of data generated on instantiation.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 public class PidData {
@@ -60,8 +60,8 @@ public class PidData {
     var valD = 0.1;
 
     return actual.get(j - 1) + valP * +valD
-        * (currentDiff - difference.get(j - 2)) + valI
-        * (currentDiff + difference.get(j - 2) + difference.get(j - 3));
+      * (currentDiff - difference.get(j - 2)) + valI
+      * (currentDiff + difference.get(j - 2) + difference.get(j - 3));
   }
 
   /**

@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 /**
  * Creates the top control bar of gui.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 public class ControlBarGenerator {

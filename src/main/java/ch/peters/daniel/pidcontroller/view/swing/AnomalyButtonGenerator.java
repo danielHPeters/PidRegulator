@@ -10,7 +10,7 @@ import javax.swing.JTextField;
  * Generator for Buttons which change some data in the list to create a
  * simulated anomaly. To generate a button use the generateButton method.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 class AnomalyButtonGenerator {
@@ -18,7 +18,7 @@ class AnomalyButtonGenerator {
   private final JTextField messageArea;
 
   /**
-   * Default constructor. Initializes the references to the Canvas and
+   * Default constructor. Initializes the references to the CanvasSwing and
    * JTextField objects.
    *
    * @param state       Drawing state

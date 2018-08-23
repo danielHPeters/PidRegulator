@@ -3,36 +3,37 @@ package ch.peters.daniel.pidcontroller.model;
 /**
  * Int point class to store location data.
  *
- * @author Daniel Peters
+ * @param <T>
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
-public class Point {
-  private int x;
-  private int y;
+public class Point<T extends Number> {
+  private T x;
+  private T y;
 
-  public Point(int x, int y) {
+  public Point(T x, T y) {
     this.x = x;
     this.y = y;
   }
 
-  public int getX() {
+  public T getX() {
     return x;
   }
 
-  public int getY() {
+  public T getY() {
     return y;
   }
 
-  public void set(int x, int y) {
+  public void set(T x, T y) {
     this.x = x;
     this.y = y;
   }
 
-  public void setX(int x) {
+  public void setX(T x) {
     this.x = x;
   }
 
-  public void setY(int y) {
+  public void setY(T y) {
     this.y = y;
   }
 }

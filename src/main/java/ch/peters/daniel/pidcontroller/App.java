@@ -4,7 +4,7 @@ import ch.peters.daniel.pidcontroller.control.FileHandler;
 import ch.peters.daniel.pidcontroller.control.PidData;
 import ch.peters.daniel.pidcontroller.control.Runner;
 import ch.peters.daniel.pidcontroller.control.State;
-import ch.peters.daniel.pidcontroller.view.swing.Canvas;
+import ch.peters.daniel.pidcontroller.view.swing.CanvasSwing;
 import ch.peters.daniel.pidcontroller.view.swing.ControlBarGenerator;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -23,12 +23,11 @@ public class App {
    * Creates the GUI.
    */
   public App() {
-    setLooks();
     var window = new JFrame();
     var loader = new FileHandler();
     var data = new PidData(loader);
     var state = new State(data);
-    var surface = new Canvas(data, state);
+    var surface = new CanvasSwing(data, state);
     var run = new Runner(surface, state);
     var executor = new ScheduledThreadPoolExecutor(3);
     var controlBarGen = new ControlBarGenerator(state);
@@ -41,6 +40,8 @@ public class App {
     window.setSize(816, 880);
     window.setLayout(null);
     window.setVisible(true);
+    setLooks();
+    SwingUtilities.updateComponentTreeUI(window);
   }
 
   /**
@@ -55,7 +56,7 @@ public class App {
         }
       }
     } catch (ClassNotFoundException | InstantiationException
-        | IllegalAccessException | UnsupportedLookAndFeelException e) {
+      | IllegalAccessException | UnsupportedLookAndFeelException e) {
       System.out.println("Failed to set look and feel.");
     }
   }
