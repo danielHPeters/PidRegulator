@@ -10,8 +10,6 @@ public class State {
   /**
    * Anomaly (deviation from the intended course of the plane) can be changed
    * by the anomaly buttons.
-   * TODO: move to somewhere where it makes sense,
-   * TODO because this class should only handle painting of objects.
    */
   private double anomaly;
 

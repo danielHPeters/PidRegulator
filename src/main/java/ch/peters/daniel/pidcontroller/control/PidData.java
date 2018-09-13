@@ -36,7 +36,6 @@ public class PidData {
       this.difference = new ArrayList<>();
 
       // Fill lists temporarily to avoid null pointer exception
-      // TODO fix code to avoid this
       target.forEach(s -> {
         actual.add(0.0);
         difference.add(0.0);
