@@ -5,10 +5,10 @@ import ch.peters.daniel.pidcontroller.view.Canvas;
 /**
  * This runnable starts and runs the painting process.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
-public class Runner implements Runnable {
+public class MainLoop implements Runnable {
   private final Canvas canvas;
   private final State state;
 
@@ -19,7 +19,7 @@ public class Runner implements Runnable {
    * @param canvas reference to canvas
    * @param state  reference to drawing state
    */
-  public Runner(Canvas canvas, State state) {
+  public MainLoop(Canvas canvas, State state) {
     this.canvas = canvas;
     this.state = state;
   }

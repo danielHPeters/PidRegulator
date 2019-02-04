@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 /**
  * Creates the top control bar of gui.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 public class ControlBarGenerator {
@@ -48,9 +48,9 @@ public class ControlBarGenerator {
 
     // Get Button Generators
     var btnGenerator = new AnomalyButtonGenerator(
-        this.state, messageArea);
+      this.state, messageArea);
     var controlsBtnGen = new ControlButtonGenerator(
-        this.state, speedDisplay);
+      this.state, speedDisplay);
 
     controls.setBounds(0, 0, 800, 40);
     controls.setBackground(Color.yellow);

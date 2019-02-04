@@ -2,9 +2,10 @@ package ch.peters.daniel.pidcontroller.control;
 
 import ch.peters.daniel.pidcontroller.interfaces.DataHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Loads data from a file.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 public class FileHandler implements DataHandler<Double> {
@@ -31,11 +32,11 @@ public class FileHandler implements DataHandler<Double> {
   public List<Double> get() {
     var values = new ArrayList<Double>();
 
-    try (var br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName)))) {
+    try (var br = Files.newBufferedReader(Paths.get(getClass().getResource(fileName).toURI()))) {
       br.lines()
         .map(line -> Double.parseDouble(line.trim()))
         .collect(Collectors.toCollection(() -> values));
-    } catch (IOException e) {
+    } catch (IOException | URISyntaxException e) {
       e.printStackTrace();
     }
     return values;

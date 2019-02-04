@@ -2,7 +2,7 @@ package ch.peters.daniel.pidcontroller;
 
 import ch.peters.daniel.pidcontroller.control.FileHandler;
 import ch.peters.daniel.pidcontroller.control.PidData;
-import ch.peters.daniel.pidcontroller.control.Runner;
+import ch.peters.daniel.pidcontroller.control.MainLoop;
 import ch.peters.daniel.pidcontroller.control.State;
 import ch.peters.daniel.pidcontroller.view.swing.CanvasSwing;
 import ch.peters.daniel.pidcontroller.view.swing.ControlBarGenerator;
@@ -28,7 +28,7 @@ public class App {
     var data = new PidData(loader);
     var state = new State(data);
     var surface = new CanvasSwing(data, state);
-    var run = new Runner(surface, state);
+    var run = new MainLoop(surface, state);
     var executor = new ScheduledThreadPoolExecutor(3);
     var controlBarGen = new ControlBarGenerator(state);
     var controlBar = controlBarGen.getNewControlBar();

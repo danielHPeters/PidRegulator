@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /**
  * Paints all the data should have no logic and data manipulation inside if possible.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 public class CanvasSwing extends JPanel implements Canvas {
@@ -112,7 +112,7 @@ public class CanvasSwing extends JPanel implements Canvas {
 
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setColor(Color.white);
-    g2.drawString("CanvasSwing", 20, 20);
+    g2.drawString("PID Example", 20, 20);
     g2.setColor(Color.yellow);
     drawTarget(g2);
     g2.setColor(Color.red);

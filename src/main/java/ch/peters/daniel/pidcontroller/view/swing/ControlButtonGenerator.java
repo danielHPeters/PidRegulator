@@ -10,7 +10,7 @@ import javax.swing.JTextField;
  * Generator for buttons, that change the loop of a runnable in some way
  * (e.g. restarting the loop or changing the delay)
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 class ControlButtonGenerator {
@@ -79,5 +79,4 @@ class ControlButtonGenerator {
 
     return button;
   }
-
 }

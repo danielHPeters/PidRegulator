@@ -4,7 +4,7 @@ package ch.peters.daniel.pidcontroller.model;
  * Int point class to store location data.
  *
  * @param <T>
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel
  * @version 1.0
  */
 public class Point<T extends Number> {
